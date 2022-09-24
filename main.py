@@ -21,16 +21,31 @@ def jarvis_intro(intro: list[str]) -> None:
         jarvis_talk(line)
 
 
+def take_command():
+    command = None
+    try:
+        with sr.Microphone() as source:
+            print("Listening...")
+            voice = listener.listen(source)
+            command = listener.recognize_google(voice)
+            command = command.lower()
+            print(f"Transcribed Command: {command}")
+            if "jarvis" in command:
+                command = command.replace("jarvis", "")
+                return command
+    except:
+        pass
+    
+    
+
+
+def run_jarvis():
+    command = take_command()
+    if command:
+        if "play" in command:
+            jarvis_talk("playing")
+            print("playing")
+
 jarvis_intro(intro)
 
-
-try:
-    with sr.Microphone() as source:
-        print("Listening...")
-        voice = listener.listen(source)
-        command = listener.recognize_google(voice)
-        print(command)
-        if "jarvis" in command.lower():
-            print(command)
-except:
-    pass
+run_jarvis()
