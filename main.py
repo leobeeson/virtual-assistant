@@ -1,5 +1,7 @@
 import speech_recognition as sr
 import pyttsx3
+import pywhatkit
+
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -31,7 +33,7 @@ def take_command():
             command = command.lower()
             print(f"Transcribed Command: {command}")
             if "jarvis" in command:
-                command = command.replace("jarvis", "")
+                command = command.replace("jarvis", "").strip()
                 return command
     except:
         pass
@@ -43,9 +45,11 @@ def run_jarvis():
     command = take_command()
     if command:
         if "play" in command:
-            jarvis_talk("playing")
-            print("playing")
+            music_utterance = command.replace("play", " ").strip()
+            jarvis_talk("playing" + music_utterance)
+            print(f"Playing: {music_utterance}")
+            pywhatkit.playonyt(music_utterance)
 
-jarvis_intro(intro)
+# jarvis_intro(intro)
 
 run_jarvis()
