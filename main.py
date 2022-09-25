@@ -2,6 +2,7 @@ import datetime
 import speech_recognition as sr
 import pyttsx3
 import pywhatkit
+import wikipedia
 
 
 google_search_primers = [
@@ -81,7 +82,13 @@ def run_jarvis():
             search_utterance = remove_primers_from_command(command, google_search_primers)
             print(f"Searcing: {search_utterance}")
             pywhatkit.search(search_utterance)
+        elif "wikipedia" in command:
+            search_utterance = remove_primers_from_command(command, wikipedia_search_primers)
+            wikipedia_info = wikipedia.summary(search_utterance, 1)
+            print(wikipedia_info)
+            jarvis_talk(wikipedia_info)
 
 
-jarvis_intro(intro)
-run_jarvis()
+if __name__ == "__main__":
+    jarvis_intro(intro)
+    run_jarvis()
